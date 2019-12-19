@@ -5,9 +5,14 @@ module.exports = function(app) {
         res.render("index");
     });
   
-    app.get("/scrape", function (app) {
-      res.json();
-    });
+    // app.get("/all", function (app) {
+    //   db.Article.find({}).then(function(dbArticle) {
+    //     const hbsObj = {
+    //       articles: dbArticle
+    //     };
+    //     res.render("all", hbsObj);
+    //   });
+    // });
 
     // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {

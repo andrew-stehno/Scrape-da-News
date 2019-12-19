@@ -26,4 +26,17 @@ module.exports = function(app) {
             res.send("Scrape Complete");
         })
     })
+
+    app.get("/articles", function(req, res) {
+        db.Article.find({})
+          .then(function(dbArticle) {
+            const hbsObj = {
+          articles: dbArticle
+        };
+        res.render("all", hbsObj);
+          })
+          .catch(function(err) {
+            res.json(err);
+          });
+      });
 };

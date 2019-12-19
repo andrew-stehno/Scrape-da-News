@@ -27,7 +27,10 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 // Connect to MondoDb:
-mongoose.connect("mongodb://localhost/scrapeDaNews", { useNewUrlParser: true });
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scrapeDaNews";
+
+mongoose.connect(MONGODB_URI);
+
 
 // Require routes:
 require("./routes/apiRoutes")(app);
