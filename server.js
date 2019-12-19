@@ -30,8 +30,8 @@ app.set('view engine', 'handlebars');
 mongoose.connect("mongodb://localhost/scrapeDaNews", { useNewUrlParser: true });
 
 // Require routes:
-require("./routes/apiRoutes");
-require("./routes/htmlRoutes");
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
