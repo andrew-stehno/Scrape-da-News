@@ -7,13 +7,29 @@ module.exports = function(app) {
         axios.get("https://www.nps.gov/index.htm").then(function(response) {
             let $ = cheerio.load(response.data);
         // console.log(response.data);
-            $(".Feature-title").each(function(i, element) {
+            $(".Component").each(function(i, element) {
                 let result = {};
+                result.image = "https://www.nps.gov" + $(this)
+                .children()
+                .children()
+                .children(".Feature-image")
+                .attr("src");
+                result.imageAlt = $(this)
+                .children()
+                .children()
+                .children(".Feature-image")
+                .attr("alt");
                 result.title = $(this)
+                .children()
+                .children()
+                .children(".Feature-title")
                 .text();
                 result.link = "https://www.nps.gov" + $(this)
-                .parent().parent("a")
+                .children("a")
                 .attr("href");
+                result.summary = $(this)
+                .children(".Feature-description")
+                .text();
                 console.log(result);
                 db.Article.create(result)
                 .then(function(dbArticle) {
@@ -33,7 +49,7 @@ module.exports = function(app) {
             const hbsObj = {
           articles: dbArticle
         };
-        res.render("all", hbsObj);
+        res.render("index", hbsObj);
           })
           .catch(function(err) {
             res.json(err);
