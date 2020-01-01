@@ -43,7 +43,7 @@ module.exports = function(app) {
         })
     })
 
-    app.get("/articles", function(req, res) {
+    app.get("/", function(req, res) {
         db.Article.find({})
           .then(function(dbArticle) {
             const hbsObj = {
@@ -55,4 +55,13 @@ module.exports = function(app) {
             res.json(err);
           });
       });
+
+      app.get("/articles/:id", (req, res) => {
+          db.Article.findOne({_id: req.params.id})
+          .populate("note")
+          .then((dbArticle) => {
+              res.json(dbArticle);
+          })
+          .catch(err => res.json(err));
+      })
 };
