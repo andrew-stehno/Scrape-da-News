@@ -3,7 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 module.exports = function(app) {
-    app.get("/scrape", function(req, res) {
+    app.get("/scrape", (req, res) => {
         axios.get("https://www.nps.gov/index.htm").then(function(response) {
             let $ = cheerio.load(response.data);
         // console.log(response.data);
@@ -43,7 +43,7 @@ module.exports = function(app) {
         })
     })
 
-    app.get("/", function(req, res) {
+    app.get("/", (req, res) => {
         db.Article.find({})
           .then(function(dbArticle) {
             const hbsObj = {
@@ -64,4 +64,12 @@ module.exports = function(app) {
           })
           .catch(err => res.json(err));
       })
+
+      app.post("/articles/:id", (req, res) => {
+          db.Note.create(req.body)
+          .then(dbNote => db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true }));
+      })
+    //   .then(dbArticle => res.json(dbArticle))
+    //   .catch(err => res.json(err));
+      
 };
