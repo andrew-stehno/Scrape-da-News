@@ -1,5 +1,4 @@
 $(document).ready(() => {
-
   $(".scrape").on("click", () => {
     $.ajax({
       method: "GET",
@@ -10,10 +9,10 @@ $(document).ready(() => {
     });
   });
 
-  $(".note").on("click", () => {
+  $(".note").on("click", function() {
     $("#notes-here").empty();
     const thisId = $(this).attr("data-id");
-
+    console.log(this);
     $.ajax({
       method: "GET",
       url: "/articles/" + thisId
@@ -37,20 +36,18 @@ $(document).ready(() => {
     });
   });
 
-  $(document).on("click", ".save-note", () => {
+  $(document).on("click", ".save-note", function() {
     const thisId = $(this).attr("data-id");
 
     $.ajax({
       method: "POST",
       url: "/articles/" + thisId,
       data: {
-          title: $("titleinput").val(),
-          body: $("bodyinput").val()
+        title: $("#titleinput").val(),
+        body: $("#bodyinput").val()
       }
     }).then(data => {
       console.log(data);
-      location.reload();
     });
   });
-
 });
