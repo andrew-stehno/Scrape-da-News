@@ -70,7 +70,7 @@ module.exports = function(app) {
   });
 
   app.post("/articles/:id", (req, res) => {
-      console.log(req.body)
+    console.log(req.body);
     db.Note.create(req.body)
       .then(dbNote =>
         db.Article.findOneAndUpdate(
@@ -81,5 +81,26 @@ module.exports = function(app) {
       )
       .then(dbArticle => res.json(dbArticle))
       .catch(err => res.json(err));
+  });
+
+  app.get("/delete/:id", (req, res) => {
+    const id = req.params.id
+    db.Note.findByIdAndDelete(id)
+      .then(function(dbNote) {
+        res.json(dbNote)
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  app.get("/all", (req, res) => {
+    db.Note.find({}) 
+      .then(function(dbNote) {
+        res.json(dbNote)
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
   });
 };
